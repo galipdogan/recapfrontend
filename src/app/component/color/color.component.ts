@@ -14,9 +14,9 @@ export class ColorComponent implements OnInit {
   constructor(private colorService:ColorService) { }
 
   ngOnInit(): void {
-    this.getColor();
+    this.getColors();
   }
-  getColor(){
+  getColors(){
     this.colorService.getColors().subscribe(response=>{
       this.colors=response.data;
       this.dataLoaded=true;
