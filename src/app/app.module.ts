@@ -10,6 +10,8 @@ import { ColorComponent } from './component/color/color.component';
 import { NaviComponent } from './component/navi/navi.component';
 import { RentalComponent } from './component/rental/rental.component';
 import { UserComponent } from './component/user/user.component';
+import { CarDetailDtoComponent } from './component/car-detail-dto/car-detail-dto.component';
+import { RentalDetailDtoComponent } from './component/rental-detail-dto/rental-detail-dto.component';
 
 
 
@@ -23,6 +25,8 @@ import { UserComponent } from './component/user/user.component';
     NaviComponent,
     CustomerComponent,
     UserComponent,
+    CarDetailDtoComponent,
+    RentalDetailDtoComponent,
 
   ],
   imports: [

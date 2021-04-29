@@ -13,29 +13,22 @@ export class CarService {
   constructor(private httpClient: HttpClient) {}
 
   getCars(): Observable<ListResponseModel<Car>> {
-    let newPath=this.apiUrl+"cars/getall"
+    let newPath = this.apiUrl + 'cars/getall';
     return this.httpClient.get<ListResponseModel<Car>>(newPath);
   }
 
-  getdetail(): Observable<ListResponseModel<Car>> {
-    let newPath=this.apiUrl+"cars/getdetail"
+  getCarsByBrandId(brandId: number): Observable<ListResponseModel<Car>> {
+    let newPath = this.apiUrl + 'cars/getcarsbybrandid?brandId=' + brandId;
     return this.httpClient.get<ListResponseModel<Car>>(newPath);
   }
 
-  getCarsByBrand(branId:number):Observable<ListResponseModel<Car>>{
-    let newPath=this.apiUrl+"cars/GetCarsByBrandId?branId="+branId;
+  getCarsByColorId(colorId: number): Observable<ListResponseModel<Car>> {
+    let newPath = this.apiUrl + 'cars/getcarsbycolorid?colorid=' + colorId;
     return this.httpClient.get<ListResponseModel<Car>>(newPath);
   }
 
-  getCarsByColor(colorId:number):Observable<ListResponseModel<Car>>{
-    let newPath=this.apiUrl+"cars/GetCarsByColorId?branId="+colorId;
+  getDetailsByCarId(carId: number): Observable<ListResponseModel<Car>> {
+    let newPath = this.apiUrl + 'cars/getdetailsbycarid?carid=' + carId;
     return this.httpClient.get<ListResponseModel<Car>>(newPath);
   }
-
-  getByUnitPrice(min:number,max:number):Observable<ListResponseModel<Car>>{
-    let newPath=this.apiUrl+"cars/GetByUnitPrice?dailyprice=>"+min;
-    return this.httpClient.get<ListResponseModel<Car>>(newPath);
-  }
-
-  
 }
