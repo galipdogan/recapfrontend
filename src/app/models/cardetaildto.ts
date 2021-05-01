@@ -5,4 +5,6 @@ export interface CarDetailDto {
   colorName: string;
   dailyPrice: number;
   carImagePath: string;
+  modelYear: number;
+  description: string;
 }
