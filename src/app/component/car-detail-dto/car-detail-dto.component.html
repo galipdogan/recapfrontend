@@ -1,23 +1,41 @@
-<div *ngIf="dataLoaded==false"  class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <table *ngIf="dataLoaded!=false" class="table">
-    <thead>
-      <tr>
-        <th>Car Id</th>
-        <th>Car Name</th>
-        <th>Brand Name</th>
-        <th>Color Name</th>
-        <th>Daily Price</th>
-        <th>Image</th>
-      </tr>
-    </thead>
-    <tr *ngFor="let carDetail of carsDetails">
-      <td>{{ carDetail.carId }}</td>
-      <td>{{ carDetail.carName }}</td>
-      <td>{{ carDetail.brandName }}</td>
-      <td>{{ carDetail.colorName }}</td>
-      <td>{{ carDetail.dailyPrice }}</td>
-      <!-- <td>{{ carDetail.car }}</td> -->
+<div *ngIf="dataLoaded == false" class="spinner-border text-primary" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+<div class="mb-3">
+  <label for="filterText.length>2" class="form-label">Find Cars</label>
+  <input type="text" [(ngModel)]="filterText" class="form-control" id="filterText" placeholder="Searching cars">
+</div>
+<div *ngIf="filterText" class="alert alert-success"> 
+{{filterText}} Searching
+</div>
+<!-- <select *ngFor="let brand of brands" class="form-select" aria-label="Default select example">
+  <option selected>Open this select menu</option>
+  <option  >One</option>
+</select> -->
+
+<table *ngIf="dataLoaded == true" class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Car Name</th>
+      <th>Brand Name</th>
+      <th>Color Name</th>
+      <th>Daily Price</th>
+      <th>Price With Tax</th>
+      <th>Image</th>
     </tr>
-  </table>
+  </thead>
+  <tbody>
+  <tr *ngFor="let carDetailDto of carsDetailsDto ">
+    <td>{{ carDetailDto.carId  }}</td>
+    <td>{{ carDetailDto.carName | uppercase }}</td>
+    <td>{{ carDetailDto.brandName }}</td>
+    <td>{{ carDetailDto.colorName}}</td>
+    <td>{{ carDetailDto.dailyPrice | currency: "TRY":"TL ":"" }}</td>
+    <td>{{ carDetailDto.dailyPrice | vatAdded:18 | currency: "TRY":"TL ":"" }}</td>
+    <td><img src="https://localhost:44387/{{carDetailDto.imagePath}}" style="width: 100px"> </td>
+    <!-- <td><button (click)="addToCart(car)"  type="button" class="btn btn-success">Add To Cart</button></td> -->
+    <!-- <td><button routerLink = "/carDetails/color/{{carDetails.colorId}}" type="button" class="btn btn-success">Details</button></td> -->
+  </tr>
+</tbody>
+</table>

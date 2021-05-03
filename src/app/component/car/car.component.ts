@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Car } from 'src/app/models/car';
+import { CarDetailDtoService } from 'src/app/services/car-detail-dto.service';
 import { CarService } from 'src/app/services/car.service';
 import { CartService } from 'src/app/services/cart.service';
+import { CarDetailDtoComponent } from '../car-detail-dto/car-detail-dto.component';
 
 @Component({
   selector: 'app-car',
@@ -13,14 +15,15 @@ import { CartService } from 'src/app/services/cart.service';
 export class CarComponent implements OnInit {
   cars: Car[] = [];
   currentCar: Car;
-  filterText="";
+  filterText = '';
   dataLoaded = false;
 
   constructor(
     private carService: CarService,
-    private cartService:CartService,
+    private cartService: CartService,
+    private carDetailsDtoService: CarDetailDtoService,
     private activedRoute: ActivatedRoute,
-    private toastrService:ToastrService
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -29,52 +32,34 @@ export class CarComponent implements OnInit {
         this.getCarsByBrandId(params['brandId']);
       } else if (params['colorId']) {
         this.getCarsByColorId(params['colorId']);
-      } else {
-        this.getCars();
       }
     });
   }
 
-  getCars() {
-    this.carService.getCars().subscribe((response) => {
+  getCarsByBrandId(brandId: number) {
+    this.carService.getCarsByBrandId(brandId).subscribe((response) => {
       this.cars = response.data;
       this.dataLoaded = true;
     });
   }
 
-  getCarsByBrandId(brandId:number){
-    this.carService.getCarsByBrandId(brandId).subscribe(response=>{
-      this.cars=response.data;
-      this.dataLoaded=true;
-    })
-  }
-  
-
-  getCarsByColorId(colorId:number){
-    this.carService.getCarsByColorId(colorId).subscribe(response=>{
-      this.cars=response.data;
-      this.dataLoaded=true;
-    })
-  }
-
-  getDetailsByCarId(carId: number) {
-    this.carService.getDetailsByCarId(carId).subscribe((response) => {
+  getCarsByColorId(colorId: number) {
+    this.carService.getCarsByColorId(colorId).subscribe((response) => {
       this.cars = response.data;
       this.dataLoaded = true;
     });
   }
 
-  addToCart(car:Car){
-    this.toastrService.success("Sepete eklendi " + car.carName)
+  addToCart(car: Car) {
+    this.toastrService.success('Sepete eklendi ' + car.carName);
     this.cartService.addToCart(car);
-    console.log()
+    console.log();
   }
 
   setCurrentCar(car: Car) {
     this.currentCar = car;
   }
 
- 
   getCurrentCarClass(car: Car) {
     if (car == this.currentCar) {
       return 'list-group-item active';
