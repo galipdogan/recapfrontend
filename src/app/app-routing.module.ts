@@ -4,16 +4,18 @@ import { CarDetailDtoComponent } from './component/car-detail-dto/car-detail-dto
 import { CarComponent } from './component/car/car.component';
 
 const routes: Routes = [
-  {path:"",pathMatch:"full",component:CarComponent },
-  {path:"cars",component:CarComponent },
-  // {path:"cars/brand/:brandId",component:CarComponent },
-  // {path:"cars/color/:colorId",component:CarComponent },
-
-  {path:"car/details/:carId", component: CarDetailDtoComponent },
+  { path: '', pathMatch: 'full', component: CarComponent },
+  { path: 'cars', component: CarComponent },
+  { path: 'cars/brand/:brandId', component: CarComponent },
+  { path: 'cars/color/:colorId', component: CarComponent },
+  { path: 'cars/details/:carId', component: CarDetailDtoComponent },
+  { path: 'cars/:brandId/:colorId', component: CarComponent },
+  
+  
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

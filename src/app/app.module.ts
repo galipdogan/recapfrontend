@@ -13,13 +13,18 @@ import { ColorComponent } from './component/color/color.component';
 import { NaviComponent } from './component/navi/navi.component';
 import { RentalComponent } from './component/rental/rental.component';
 import { UserComponent } from './component/user/user.component';
-import { CarDetailDtoComponent } from './component/car-detail-dto/car-detail-dto.component';
-import { RentalDetailDtoComponent } from './component/rental-detail-dto/rental-detail-dto.component';
+
 import { VatAddedPipe } from './pipe/vat-added.pipe';
 import { FilterPipe } from './pipe/filter-pipe.pipe';
+import { BrandFilterPipe } from './pipe/brand-filter.pipe';
+import { ColorFilterPipe } from './pipe/color-filter.pipe';
+
 
 import { ToastrModule } from 'ngx-toastr';
 import { CartSummaryComponent } from './component/cart-summary/cart-summary.component';
+import { CarDetailDtoComponent } from './component/car-detail-dto/car-detail-dto.component';
+import { CarsFilterSearchBarComponent } from './component/cars-filter-search-bar/cars-filter-search-bar.component';
+
 
 @NgModule({
   declarations: [
@@ -32,10 +37,13 @@ import { CartSummaryComponent } from './component/cart-summary/cart-summary.comp
     CustomerComponent,
     UserComponent,
     CarDetailDtoComponent,
-    RentalDetailDtoComponent,
     VatAddedPipe,
     FilterPipe,
     CartSummaryComponent,
+    BrandFilterPipe,
+    ColorFilterPipe,
+    CarsFilterSearchBarComponent,
+  
   ],
   imports: [
     BrowserModule,

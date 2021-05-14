@@ -13,7 +13,41 @@
   <option  >One</option>
 </select> -->
 
-<table *ngIf="dataLoaded == true" class="table">
+<!-- Card alanı -->
+<div class="d-flex justify-content-center container mt-5"  *ngFor="let carDetailDto of carsDetailsDto |  filterPipe:filterText" >
+  <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
+      <div class="about-product text-center mt-2"><img src="https://localhost:44387/{{carDetailDto.imagePath}}" width="300">
+          <div>
+              <h4>{{ carDetailDto.brandName | uppercase }}</h4>
+              <h6 class="mt-0 text-black-50">{{ carDetailDto.carName }}</h6>
+          </div>
+      </div>
+      <div class="stats mt-2">
+          <div class="d-flex justify-content-between p-price"><span>Price</span><span>{{ carDetailDto.dailyPrice | currency: "TRY":"TL ":"" }}</span></div>
+          <!-- <div class="d-flex justify-content-between p-price"><span>Price With VatAdded</span><span>{{ carDetailDto.dailyPrice | vatAdded:18 | currency: "TRY":"TL ":"" }}</span></div> -->
+      </div>
+      <div class="d-flex justify-content-between total font-weight-bold mt-4"><span>Total With VatAdded</span><span>{{ carDetailDto.dailyPrice | vatAdded:18 | currency: "TRY":"TL ":"" }}</span></div>
+  <a class="btn btn-primary">Sepete Ekle</a>
+    </div>
+  
+</div>
+
+<!-- 
+<div class="card" style="width: 18rem;" *ngFor="let carDetailDto of carsDetailsDto |  filterPipe:filterText">
+  <img src="https://localhost:44387/{{carDetailDto.imagePath}}" class="card-img-top" alt="...">
+  <div class="card-body" >
+    <h5  class="card-title">{{ carDetailDto.brandName | uppercase }}</h5>
+    <h5 class="card-title">{{ carDetailDto.carName }}</h5>
+    <h5  class="card-title">{{ carDetailDto.colorName }}</h5>
+    <h5 class="card-title">{{ carDetailDto.dailyPrice | currency: "TRY":"TL ":"" }}</h5>
+    <h5 class="card-title">{{ carDetailDto.dailyPrice | vatAdded:18 | currency: "TRY":"TL ":"" }}</h5>
+    <p class="card-text">{{ carDetailDto.description | uppercase }}</p>
+    <a class="btn btn-primary">Detaya Git</a>
+  </div>
+</div> -->
+
+
+<!-- <table *ngIf="dataLoaded == true" class="table">
   <thead>
     <tr>
       <th>Id</th>
@@ -26,7 +60,7 @@
     </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let carDetailDto of carsDetailsDto ">
+  <tr *ngFor="let carDetailDto of carsDetailsDto |  filterPipe:filterText">
     <td>{{ carDetailDto.carId  }}</td>
     <td>{{ carDetailDto.carName | uppercase }}</td>
     <td>{{ carDetailDto.brandName }}</td>
@@ -35,7 +69,9 @@
     <td>{{ carDetailDto.dailyPrice | vatAdded:18 | currency: "TRY":"TL ":"" }}</td>
     <td><img src="https://localhost:44387/{{carDetailDto.imagePath}}" style="width: 100px"> </td>
     <!-- <td><button (click)="addToCart(car)"  type="button" class="btn btn-success">Add To Cart</button></td> -->
-    <!-- <td><button routerLink = "/carDetails/color/{{carDetails.colorId}}" type="button" class="btn btn-success">Details</button></td> -->
+    <!-- <td><button routerLink = "/carDetails/color/{{carDetails.colorId}}" type="button" class="btn btn-success">Details</button></td> 
   </tr>
 </tbody>
-</table>
+</table> -->
+
+

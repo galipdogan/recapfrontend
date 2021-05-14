@@ -1,14 +1,14 @@
 import { BuiltinFunctionCall } from '@angular/compiler/src/compiler_util/expression_converter';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Brand } from 'src/app/models/brand';
 import { Car } from 'src/app/models/car';
-import { CarDetailDto } from 'src/app/models/cardetaildto';
+import { CarDetailsDto } from 'src/app/models/cardetailsdto';
 import { Color } from 'src/app/models/color';
-import { BrandService } from 'src/app/services/brand.service';
-import { CarDetailDtoService } from 'src/app/services/car-detail-dto.service';
+
 import { CarService } from 'src/app/services/car.service';
-import { ColorService } from 'src/app/services/color.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-car-detail-dto',
@@ -16,42 +16,55 @@ import { ColorService } from 'src/app/services/color.service';
   styleUrls: ['./car-detail-dto.component.css'],
 })
 export class CarDetailDtoComponent implements OnInit {
-  carsDetailsDto: CarDetailDto[] = [];
+  carsDetailsDto: CarDetailsDto[] = [];
   brands: Brand[] = [];
   colors: Color[] = [];
-  currentCarDetail: CarDetailDto | null;
+  currentCarDetail: CarDetailsDto | null;
   dataLoaded = false;
   filterText = '';
   brandNameFilter: '';
   colorNameFilter: '';
   constructor(
-    private carDetailDtoService: CarDetailDtoService,
     private carService: CarService,
-    private activatedRoute: ActivatedRoute
+    private cartService: CartService,
+    private activatedRoute: ActivatedRoute,
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.load();
+    this.activatedRoute.params.subscribe((params) => {
+      if (params['carId']) {
+        this.getCarDetailsByCarId(params['carId']);
+      }else{
+        this.getCarDetailsDto();
+      }
+    });
   }
-
-  load() {
-    // this.activatedRoute.params.subscribe(params => {
-    //   if (params['carId']) {
-    //     this.getDetailsByCarId(params['carId']);
-    //   }
-    // });
-    this.getCarDetailsDto();
-  }
-
   getCarDetailsDto() {
-    this.carDetailDtoService.getCarDetails().subscribe((response) => {
+    this.carService.getCarDetails().subscribe((response) => {
       this.carsDetailsDto = response.data;
       this.dataLoaded = true;
     });
   }
 
-  // getDetailsByCarId(carId:number) {
-  //   this.carDetailDtoService.getDetailsByCarId(carId).subscribe((response)=>{
-  //     //this.carsDetails=response.data;
-  //     this.dataLoaded=true;
+  getCarDetailsByBrandId(brandId: number) {
+    this.carService.getCarDetailsByBrandId(brandId).subscribe((response) => {
+      this.carsDetailsDto = response.data;
+      this.dataLoaded = true;
+    });
+  }
+
+  getCarDetailsByColorId(colorId: number) {
+    this.carService.getCarDetailsByColorId(colorId).subscribe((response) => {
+      this.carsDetailsDto = response.data;
+      this.dataLoaded = true;
+    });
+  }
+
+  getCarDetailsByCarId(carId: number) {
+    this.carService.getDetailsByCarId(carId).subscribe((response) => {
+      this.carsDetailsDto = response.data;
+      this.dataLoaded = true;
+    });
+  }
 }

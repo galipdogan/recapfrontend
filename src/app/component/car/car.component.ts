@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Brand } from 'src/app/models/brand';
 import { Car } from 'src/app/models/car';
-import { CarDetailDtoService } from 'src/app/services/car-detail-dto.service';
+import { CarDetailsDto } from 'src/app/models/cardetailsdto';
+import { Color } from 'src/app/models/color';
+import { BrandService } from 'src/app/services/brand.service';
 import { CarService } from 'src/app/services/car.service';
 import { CartService } from 'src/app/services/cart.service';
-import { CarDetailDtoComponent } from '../car-detail-dto/car-detail-dto.component';
+import { ColorService } from 'src/app/services/color.service';
 
 @Component({
   selector: 'app-car',
@@ -13,40 +16,94 @@ import { CarDetailDtoComponent } from '../car-detail-dto/car-detail-dto.componen
   styleUrls: ['./car.component.css'],
 })
 export class CarComponent implements OnInit {
+  carDetailsDto: CarDetailsDto[] = [];
   cars: Car[] = [];
+  colors:Color[]=[];
+  brands:Brand[]=[];
+  imageUrl="https://localhost:44387/";
   currentCar: Car;
   filterText = '';
+  btnClear: boolean = false;
   dataLoaded = false;
-
+  brandId:number;
+  colorId:number;
   constructor(
     private carService: CarService,
     private cartService: CartService,
-    private carDetailsDtoService: CarDetailDtoService,
+    private colorService:ColorService,
+    private brandService:BrandService,
     private activedRoute: ActivatedRoute,
+    private router:Router,
     private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.activedRoute.params.subscribe((params) => {
-      if (params['brandId']) {
-        this.getCarsByBrandId(params['brandId']);
+      if (params['brandId'] && params['colorId']) {
+        this.getCarsByBrandIdAndColorId(params['brandId'], params['colorId']);
+      } else if (params['brandId']) {
+        this.getCarDetailsByBrandId(params['brandId']);
       } else if (params['colorId']) {
-        this.getCarsByColorId(params['colorId']);
+        this.getCarDetailsByColorId(params['colorId']);
+      }else{
+        this.getCarDetailsDto();
       }
+    });
+    this.getColors();
+    this.getBrands();
+  }
+
+  getCarDetailsDto() {
+    this.carService.getCarDetails().subscribe((response) => {
+      this.carDetailsDto = response.data;
+      this.dataLoaded = true;
+    });
+  }
+
+  getCarDetailsByBrandId(brandId: number) {
+    this.carService.getCarDetailsByBrandId(brandId).subscribe((response) => {
+      this.carDetailsDto = response.data;
+      this.dataLoaded = true;
+    });
+  }
+
+  getCarDetailsByColorId(colorId: number) {
+    this.carService.getCarDetailsByColorId(colorId).subscribe((response) => {
+      this.carDetailsDto = response.data;
+      this.dataLoaded = true;
+    });
+  }
+
+  getCarsByBrandIdAndColorId(brandId: number, colorId: number) {
+    this.carService.getCarDetailsByBrandIdColorId(brandId, colorId)
+      .subscribe((response) => {
+        this.carDetailsDto = response.data;
+        this.dataLoaded = true;
+      });
+  }
+
+  getCarsByColorId(colorId: number) {
+    this.carService.getCarsByColorId(colorId).subscribe((response) => {
+      this.carDetailsDto = response.data;
+      this.dataLoaded = true;
     });
   }
 
   getCarsByBrandId(brandId: number) {
     this.carService.getCarsByBrandId(brandId).subscribe((response) => {
-      this.cars = response.data;
+      this.carDetailsDto = response.data;
       this.dataLoaded = true;
     });
   }
 
-  getCarsByColorId(colorId: number) {
-    this.carService.getCarsByColorId(colorId).subscribe((response) => {
-      this.cars = response.data;
-      this.dataLoaded = true;
+  getColors() {
+    this.colorService.getColors().subscribe((response) => {
+      this.colors = response.data;
+    });
+  }
+  getBrands() {
+    this.brandService.getBrands().subscribe((response) => {
+      this.brands = response.data;
     });
   }
 

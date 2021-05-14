@@ -1,1 +1,98 @@
+<div class="row col-md-12 mb-3">
+  <div class="col-md-4">
+    <select [(ngModel)]="brandId" class="form-select">
+      <option *ngFor="let brand of brands" [value]="brand.brandId">
+        {{ brand.brandName }}
+      </option>
+    </select>
+  </div>
 
+  <div class="col-md-4">
+    <select [(ngModel)]="colorId" class="form-select">
+      <option *ngFor="let color of colors" [value]="color.colorId">
+        {{ color.colorName }}
+      </option>
+    </select>
+  </div>
+  <button
+    *ngIf="brandId && colorId"
+    routerLink="/cars/{{ brandId }}/{{ colorId }}"
+    class="btn btn-success"
+  >
+    Filtrele
+  </button>
+</div>
+<div
+  *ngIf="dataLoaded == false"
+  class="spinner-border text-primary"
+  role="status"
+>
+  <span class="visually-hidden">Loading...</span>
+</div>
+<div class="mb-3">
+  <label for="filterText.length>2" class="form-label">Find Cars</label>
+  <input
+    type="text"
+    [(ngModel)]="filterText"
+    class="form-control"
+    id="filterText"
+    placeholder="Searching cars"
+  />
+</div>
+<div *ngIf="filterText" class="alert alert-success">
+  {{ filterText }} Searching
+</div>
+<!-- <div  class="row">
+<div class="d-flex justify-content container mb-3"   *ngFor="let car of carDetailsDto |  filterPipe:filterText">
+  <div class="card p-3 bg-white">
+      <div class="about-product text-center mt-2"><img src="https://localhost:44387/{{car.imagePath}}" width="300">
+          <div>
+              <h4>{{car.carName}}</h4>
+              <h6 class="mt-0 text-black-50">{{car.brandName}}</h6>
+              <h6 class="mt-0 text-black-50">{{car.colorName}}</h6>
+          </div>
+      </div>
+      <div class="stats mt-2">
+          <div class="d-flex justify-content-between p-price"><span>Daily Price</span><span>{{car.dailyPrice | currency: "TRY":"₺ ":"" }}</span></div>
+      </div>
+      <div class="d-flex justify-content-between total font-weight-bold mt-4"><span>Total</span><span>{{car.dailyPrice | vatAdded:18 | currency: "TRY":"₺ ":""}} </span></div>
+      <button  type="button" routerLink="/cars/details/{{car.carId}}" class="btn btn-success">Details</button>
+    </div>
+</div>
+</div> -->
+<style>
+  .card-img-top{
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover;
+    object-position: center center;
+  }
+</style>
+<div class="row row-cols-1 row-cols-md-3 g-2">
+  <div class="col" *ngFor="let car of carDetailsDto | filterPipe: filterText">
+    <div class="card" >
+      <img [src]="imageUrl + car.imagePath" class="card-img-top d-block w-100 h-100" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title">{{ car.description }}</h5>
+        <p class="card-text">Marka : {{ car.brandName }}</p>
+        <p class="card-text">Günlük Fiyat : {{ car.dailyPrice }}</p>
+        <p class="card-text">Renk : {{ car.colorName }}</p>
+        <button
+          type="button"
+          routerLink="/cars/details/{{ car.carId }}"
+          class="btn btn-primary"
+        >
+          Detay
+        </button>
+
+        <!-- <button
+          type="button"
+          routerLink="/cart/{{ car.CarId }}"
+          class="btn btn-primary"
+        >
+          Sepete Ekle
+        </button> -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,23 @@
+<div *ngIf="dataLoaded == false" class="spinner-border text-primary" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+<div class="mb-3">
+  <label for="filterText.length>2" class="form-label">Find Brands</label>
+  <input type="text" [(ngModel)]="filterText" class="form-control" id="filterBrandText" placeholder="Searching Brands">
+</div>
+<div *ngIf="filterText" class="alert alert-success"> 
+{{filterText}} Searching
+</div>
+<!-- <select *ngFor="let brand of brands" class="form-select" aria-label="Default select example">
+  <option selected>Open this select menu</option>
+  <option  >One</option>
+</select> -->    
     <ul class="list-group" *ngIf="dataLoaded!=false">
-      <li  [class]="getAllBrandClass()" routerLink = "/cars">Tüm Markalar</li>
+      <li  [class]="getAllBrandClass()" routerLink = "/cars">Tüm Renkler</li>
       <li (click)="setCurrentBrand(brand)"
       routerLink = "/cars/brand/{{brand.brandId}}"
-      *ngFor="let brand of brands" 
+      *ngFor="let brand of brands | brandFilter:filterText" 
       [class]="getCurrentBrandClass(brand)">
       {{brand.brandName}}</li>
     </ul>
+    <!-- <h5 *ngIf="currentBrand">{{currentBrand.brandName}} </h5> seçtiğimizi görmek için yazdık-->
