@@ -1,19 +1,21 @@
-<div class="row col-md-12 mb-3">
-  <div class="col-md-4">
-    <select [(ngModel)]="brandId" class="form-select">
+
+<div class="row col-md-12 mb-3">  
+  <div class="col-md-3">   
+  <select [(ngModel)]="brandId" class="form-select" >
       <option *ngFor="let brand of brands" [value]="brand.brandId">
         {{ brand.brandName }}
       </option>
     </select>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-3">
     <select [(ngModel)]="colorId" class="form-select">
       <option *ngFor="let color of colors" [value]="color.colorId">
         {{ color.colorName }}
       </option>
     </select>
   </div>
+  <div class="col-md-3">
   <button
     *ngIf="brandId && colorId"
     routerLink="/cars/{{ brandId }}/{{ colorId }}"
@@ -21,6 +23,7 @@
   >
     Filtrele
   </button>
+</div>
 </div>
 <div
   *ngIf="dataLoaded == false"
@@ -71,7 +74,7 @@
 <div class="row row-cols-1 row-cols-md-3 g-2">
   <div class="col" *ngFor="let car of carDetailsDto | filterPipe: filterText">
     <div class="card" >
-      <img [src]="imageUrl + car.imagePath" class="card-img-top d-block w-100 h-100" alt="..." />
+      <img [src]="car.carImages.length !==0 ? imageUrl+ car.carImages[0]: imageUrl + defaultImg" class="card-img-top d-block w-100 h-100" alt="..." />
       <div class="card-body">
         <h5 class="card-title">{{ car.description }}</h5>
         <p class="card-text">Marka : {{ car.brandName }}</p>
@@ -96,3 +99,4 @@
     </div>
   </div>
 </div>
+

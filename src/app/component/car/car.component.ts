@@ -21,9 +21,9 @@ export class CarComponent implements OnInit {
   colors:Color[]=[];
   brands:Brand[]=[];
   imageUrl="https://localhost:44387/";
+  defaultImg="images/default.jpg";
   currentCar: Car;
   filterText = '';
-  btnClear: boolean = false;
   dataLoaded = false;
   brandId:number;
   colorId:number;
@@ -33,7 +33,6 @@ export class CarComponent implements OnInit {
     private colorService:ColorService,
     private brandService:BrandService,
     private activedRoute: ActivatedRoute,
-    private router:Router,
     private toastrService: ToastrService
   ) {}
 
@@ -82,19 +81,25 @@ export class CarComponent implements OnInit {
       });
   }
 
-  getCarsByColorId(colorId: number) {
-    this.carService.getCarsByColorId(colorId).subscribe((response) => {
-      this.carDetailsDto = response.data;
-      this.dataLoaded = true;
-    });
-  }
+  // getImagesByCarId(carId: number) {
+  //   this.carImageService.getImagesByCarId(carId).subscribe((response) => {
+  //     this.carImages = response.data;
+  //   });
+  // }
 
-  getCarsByBrandId(brandId: number) {
-    this.carService.getCarsByBrandId(brandId).subscribe((response) => {
-      this.carDetailsDto = response.data;
-      this.dataLoaded = true;
-    });
-  }
+  // getCarsByColorId(colorId: number) {
+  //   this.carService.getCarsByColorId(colorId).subscribe((response) => {
+  //     this.carDetailsDto = response.data;
+  //     this.dataLoaded = true;
+  //   });
+  // }
+
+  // getCarsByBrandId(brandId: number) {
+  //   this.carService.getCarsByBrandId(brandId).subscribe((response) => {
+  //     this.carDetailsDto = response.data;
+  //     this.dataLoaded = true;
+  //   });
+  // }
 
   getColors() {
     this.colorService.getColors().subscribe((response) => {
